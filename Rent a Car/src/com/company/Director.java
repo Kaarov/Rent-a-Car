@@ -1,138 +1,139 @@
 package com.company;
 
-import java.util.ArrayList;
+import java.sql.Connection;
 import java.util.Scanner;
 
 public class Director {
+//    jdbc:postgresql://localhost:5432/rentcar
 
     // Авторизация директора
     public static void directorInputLgPw() {
+        DbFunction db = new DbFunction();
+        Connection connection = db.connect_to_db("rentcar", "anas", "anas");
         Scanner sc = new Scanner(System.in);
 
-        ArrayList<String> loginArrayList = new ArrayList<String>();
-        ArrayList<String> passwordArrayList = new ArrayList<String>();
-        loginArrayList.add("Director");
-        passwordArrayList.add("Director1");
-        loginArrayList.add("director");
-        passwordArrayList.add("director1");
-        loginArrayList.add("Dir");
-        passwordArrayList.add("Dir1");
-        loginArrayList.add("dir");
-        passwordArrayList.add("dir1");
-
-        do {
-            System.out.print("Введите логин: ");
-            String input_lg = sc.next();
-            sc.nextLine();
-            System.out.print("Введите пароль: ");
-            String input_pw = sc.next();
-            sc.nextLine();
-            int indexArray = 0;
-            boolean haveInArray = false;
-            while (indexArray < loginArrayList.size()) {
-                if (input_lg.equals(loginArrayList.get(indexArray)) &&
-                        input_pw.equals(passwordArrayList.get(indexArray))) {
-                    haveInArray = true;
-                    break;
-                } else {
-                    haveInArray = false;
-                }
-                indexArray++;
-            }
-            ;
-            if (haveInArray == true) {
+        System.out.print("Введите логин: ");
+        String input_lg = sc.next();
+        System.out.print("Введите пароль: ");
+        String input_pw = sc.next();
+        while (true) {
+            if (db.login_director(connection, input_lg, input_pw)) {
                 System.out.println("Директор, вы успешно вошли!");
-//                directorActions();
+                directorActions();
                 break;
             } else {
-                System.out.println("Попытайтесь снова");
+                System.out.print("Желаете выйти[1] или повторить[0]? ");
+                int ex = sc.nextInt();
+                if (ex == 1){
+                    System.out.println("Спасибо :)");
+                    Main.chooseUsers();
+                } else if(ex == 0){
+                    directorInputLgPw();
+                } else {
+                    System.out.println("Извините, но мы не нашли такой тип аккаунта!");
+                    directorInputLgPw();
+                }
             }
-        } while (true);
+        }
     }
 
 //    // Действия директора
-//    public static void directorActions() {
-//        Scanner sc = new Scanner(System.in);
-//
-//        System.out.println("Меню:");
-//        System.out.println("(1)Показать список всей бытовой техники");
-//        System.out.println("(2)Показать количество бытовой техники");
-//        System.out.println("(3)Максимальное количество бытовой техники");
-//        System.out.println("(4)Минимальное количество бытовой техники");
-//        System.out.println("(5)Отчет по закупкам бытовой техники");
-//        System.out.println("(0)Выход");
-//        do {
-//            System.out.print("Ваш выбор: ");
-//            String chooseAction = sc.nextLine();
-//            switch (chooseAction) {
-//                case "action1":
-//                case "Action1":
-//                case "1":
-//                    System.out.println("Действие 1");
-//                    action1();
-//                    directorActions();
-//                    break;
-//                case "action2":
-//                case "Action2":
-//                case "2":
-//                    System.out.println("Действие 2");
+    public static void directorActions() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Меню:");
+        System.out.println("(1)Показать список автомобилей");
+        System.out.println("(2)Показать количество всех арендованных автомобилей");
+        System.out.println("(3)Показать самый дорогой автомобиль");
+        System.out.println("(4)Минимальное количество бытовой техники");
+        System.out.println("(5)Показать самый дешевый автомобиль");
+        System.out.println("(6)Добавить новый автомобиль");
+        System.out.println("(7)Удалить автомобиль");
+        System.out.println("(0)Выход");
+        do {
+            System.out.print("Ваш выбор: ");
+            String chooseAction = sc.nextLine();
+            switch (chooseAction) {
+                case "1":
+                    System.out.println("Действие 1");
+                    action1();
+                    directorActions();
+                    break;
+                case "2":
+                    System.out.println("Действие 2");
 //                    action2();
-//                    directorActions();
-//                    break;
-//                case "action3":
-//                case "Action3":
-//                case "3":
-//                    System.out.println("Действие 3");
+                    directorActions();
+                    break;
+                case "3":
+                    System.out.println("Действие 3");
 //                    action3();
-//                    directorActions();
-//                    break;
-//                case "action4":
-//                case "Action4":
-//                case "4":
-//                    System.out.println("Действие 4");
+                    directorActions();
+                    break;
+                case "4":
+                    System.out.println("Действие 4");
 //                    action4();
-//                    directorActions();
-//                    break;
-//                case "action5":
-//                case "Action5":
-//                case "5":
-//                    System.out.println("Действие 5");
+                    directorActions();
+                    break;
+                case "5":
+                    System.out.println("Действие 5");
 //                    action5();
-//                    directorActions();
-//                    break;
-//                default:
-//                    System.out.println("Такого действия нет в программе!");
-//                    directorActions();
-//                    break;
+                    directorActions();
+                    break;
+                case "6":
+                    System.out.println("Действие 6");
+                    action6();
+                    directorActions();
+                    break;
+                case "7":
+                    System.out.println("Действие 7");
+                    action7();
+                    directorActions();
+                    break;
+                default:
+                    System.out.println("Такого действия нет в программе!");
+                    directorActions();
+                    break;
 //                case "n":
 //                    try {
 //                        chooseUsers();
 //                    } catch (IOException e) {
 //                        e.printStackTrace();
 //                    }
-//                case "action0":
-//                case "Action0":
-//                case "0":
-//                    System.out.println("Выход");
-//                    break;
-//            }
-//            break;
-//        } while (true);
-//    }
-//
-//    public static void action1() {
-//        try {
-//            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ainura_inai\\IdeaProjects\\Sample\\src\\dos.txt"));
-//            while (br.ready()) {
-//                System.out.print(br.readLine() + " ");
-//            }
-//            System.out.println();
-//            br.close();
-//        } catch (IOException e) {
-//            System.out.println(e);
-//        }
-//    }
-//
+                case "0":
+                    System.out.println("Выход");
+                    break;
+            }
+            break;
+        } while (true);
+    }
+
+    public static void action1() {
+        DbFunction db = new DbFunction();
+        Connection connection = db.connect_to_db("rentcar", "anas", "anas");
+        db.get_cars(connection);
+    }
+
+    public static void action6() {
+        DbFunction db = new DbFunction();
+        Connection connection = db.connect_to_db("rentcar", "anas", "anas");
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Имя автомобиля: ");
+        String name = sc.nextLine();
+        System.out.print("Цена: ");
+        int price = sc.nextInt();
+        System.out.print("Марка: ");
+        String brand = sc.next();
+        System.out.print("Тип Кузова (Пикап, Внедорожник, ...): ");
+        String body_type = sc.next();
+        System.out.print("Автомать или Ручной (auto/manual): ");
+        String auto_manual = sc.next();
+        db.insert_cars(connection, name, price, body_type, auto_manual, brand);
+    }
+
+    public static void action7() {
+
+    }
+
 //    public static void action2() {
 //        try {
 //            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ainura_inai\\IdeaProjects\\Sample\\src\\dos.txt"));

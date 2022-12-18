@@ -44,11 +44,12 @@ public class Director {
         System.out.println("Меню:");
         System.out.println("(1)Показать список автомобилей");
         System.out.println("(2)Показать количество всех арендованных автомобилей");
-        System.out.println("(3)Показать самый дорогой автомобиль");
-        System.out.println("(4)Минимальное количество бытовой техники");
+        System.out.println("(3)Показать количество всех сервисных автомобилей");
+        System.out.println("(4)Показать самый дорогой автомобиль");
         System.out.println("(5)Показать самый дешевый автомобиль");
         System.out.println("(6)Добавить новый автомобиль");
         System.out.println("(7)Удалить автомобиль");
+        System.out.println("(8)Показать удаленных автомобилей");
         System.out.println("(0)Выход");
         do {
             System.out.print("Ваш выбор: ");
@@ -61,22 +62,22 @@ public class Director {
                     break;
                 case "2":
                     System.out.println("Действие 2");
-//                    action2();
+                    action2();
                     directorActions();
                     break;
                 case "3":
                     System.out.println("Действие 3");
-//                    action3();
+                    action3();
                     directorActions();
                     break;
                 case "4":
                     System.out.println("Действие 4");
-//                    action4();
+                    action4();
                     directorActions();
                     break;
                 case "5":
                     System.out.println("Действие 5");
-//                    action5();
+                    action5();
                     directorActions();
                     break;
                 case "6":
@@ -87,6 +88,11 @@ public class Director {
                 case "7":
                     System.out.println("Действие 7");
                     action7();
+                    directorActions();
+                    break;
+                case "8":
+                    System.out.println("Действие 7");
+                    action8();
                     directorActions();
                     break;
                 default:
@@ -113,6 +119,30 @@ public class Director {
         db.get_cars(connection);
     }
 
+    public static void action2() {
+        DbFunction db = new DbFunction();
+        Connection connection = db.connect_to_db("rentcar", "anas", "anas");
+        db.get_mount_rent_cars(connection);
+    }
+
+    public static void action3() {
+        DbFunction db = new DbFunction();
+        Connection connection = db.connect_to_db("rentcar", "anas", "anas");
+        db.get_mount_service_cars(connection);
+    }
+
+    public static void action4() {
+        DbFunction db = new DbFunction();
+        Connection connection = db.connect_to_db("rentcar", "anas", "anas");
+        db.get_the_most_expansive_car(connection);
+    }
+
+    public static void action5() {
+        DbFunction db = new DbFunction();
+        Connection connection = db.connect_to_db("rentcar", "anas", "anas");
+        db.get_the_cheapest_car(connection);
+    }
+
     public static void action6() {
         DbFunction db = new DbFunction();
         Connection connection = db.connect_to_db("rentcar", "anas", "anas");
@@ -131,112 +161,31 @@ public class Director {
     }
 
     public static void action7() {
-
+        DbFunction db = new DbFunction();
+        Connection connection = db.connect_to_db("rentcar", "anas", "anas");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Какую машину хотели бы удалить?");
+        System.out.print("Номер авто: ");
+        int number = sc.nextInt();
+        Boolean car_id = db.check_cars_id(connection, number);
+        if (car_id) {
+            System.out.println("Passed!");
+            db.delete_cars(connection, number);
+        } else {
+            System.out.println("Такой автомобиль не найден!");
+            System.out.println("Хотите продолжить да(1)/нет(0): ");
+            int yes = sc.nextInt();
+            if (yes == 1) {
+                action7();
+            } else {
+                directorActions();
+            }
+        }
     }
 
-//    public static void action2() {
-//        try {
-//            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ainura_inai\\IdeaProjects\\Sample\\src\\dos.txt"));
-//            int count = 0;
-//            while (br.ready()) {
-//                br.readLine();
-//                count++;
-//            }
-//            BufferedReader br1 = new BufferedReader(new FileReader("C:\\Users\\ainura_inai\\IdeaProjects\\Sample\\src\\zak.txt"));
-//            int count1 = 0;
-//            while (br1.ready()) {
-//                br1.readLine();
-//                count1++;
-//            }
-//            System.out.println("Всего товаров = " + (int) (count + count1));
-//            br1.close();
-//            br.close();
-//        } catch (IOException e) {
-//            System.out.println(e);
-//        }
-//    }
-//
-//    public static void action3() {
-//        try {
-//            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ainura_inai\\IdeaProjects\\Sample\\src\\dos.txt"));
-//            HashMap<String, Integer> d = new HashMap<>();
-//            while (br.ready()) {
-//                String line = br.readLine();
-//                if (d.containsKey(line)) {
-//                    d.put(line, (int) (d.get(line) + 1));
-//                } else {
-//                    d.put(line, 1);
-//                }
-//            }
-//
-//            System.out.println(d);
-//            String s = "dsd";
-//            int m = 0;
-//            for (String i : d.keySet()) {
-//                if (d.get(i) > m) {
-//                    m = d.get(i);
-//                    s = i;
-//                }
-//            }
-//            System.out.println("Максимальное количество бытовой техники " + s);
-//            br.close();
-//        } catch (IOException e) {
-//            System.out.println(e);
-//        }
-//    }
-//
-//    public static void action4() {
-//        try {
-//            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ainura_inai\\IdeaProjects\\Sample\\src\\dos.txt"));
-//            HashMap<String, Integer> d = new HashMap<>();
-//            while (br.ready()) {
-//                String line = br.readLine();
-//                if (d.containsKey(line)) {
-//                    d.put(line, (int) (d.get(line) + 1));
-//                } else {
-//                    d.put(line, 1);
-//                }
-//            }
-//            System.out.println(d);
-//            String s = "dsd";
-//            int m = 100;
-//            for (String i : d.keySet()) {
-//                if (d.get(i) < m) {
-//                    m = d.get(i);
-//                    s = i;
-//                }
-//            }
-//            System.out.println("Минимальное количество бытовой техники:"+ s);
-//            br.close();
-//        } catch (IOException e) {
-//            System.out.println(e);
-//        }
-//    }
-//
-//    public static void action5() {
-//        try {
-//            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ainura_inai\\IdeaProjects\\Sample\\src\\dos.txt"));
-//            System.out.print("Доставленная бытовая техника ");
-//            int countLine = 0;
-//            while (br.ready()) {
-//                System.out.print(br.readLine() + ", ");
-//                countLine++;
-//            }
-//            System.out.println("Количество = " + countLine);
-//            BufferedReader br1 = new BufferedReader(new FileReader("C:\\Users\\ainura_inai\\IdeaProjects\\Sample\\src\\zak.txt"));
-//            System.out.print("Заказанная бытовая техника ");
-//            int countline = 0;
-//            while (br1.ready()) {
-//                System.out.print(br1.readLine() + ", ");
-//                countline++;
-//            }
-//            System.out.println("Количество = " + countline);
-//            br1.close();
-//            br.close();
-//        } catch (FileNotFoundException e) {
-//            System.out.println(e);
-//        } catch (IOException e) {
-//            System.out.println(e);
-//        }
-//    }
+    public static void action8() {
+        DbFunction db = new DbFunction();
+        Connection connection = db.connect_to_db("rentcar", "anas", "anas");
+        db.get_deleted_cars(connection);
+    }
 }

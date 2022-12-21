@@ -14,7 +14,7 @@ public class Main {
 
         System.out.println("Выберите вашу специальность :");
         System.out.println("(1) Директор");
-        System.out.println("(2) Работник");
+        System.out.println("(2) Механик");
         System.out.println("(3) Покупатель");
         System.out.print("Ваш выбор: ");
         String choose = sc.nextLine();
@@ -27,15 +27,15 @@ public class Main {
                 break;
             case "worker":
             case "2":
-                System.out.println("Добро пожаловать Работник");
+                System.out.println("Добро пожаловать Механик");
                 System.out.println("Введите логин и пароль");
-//                    workerInputLgPw();
+                Repairman.repairmanInputLgPw();
                 break;
-            case "seller":
+            case "employee":
             case "3":
                 System.out.println("Добро пожаловать Покупатель!");
                 System.out.println("Введите логин и пароль");
-//                    deliverymanInputLgPw();
+                Employee.employeeInputLgPw();
                 break;
             default:
                 System.out.println("Извините, но мы не нашли такой тип аккаунта!");

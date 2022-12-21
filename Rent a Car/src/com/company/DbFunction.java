@@ -21,7 +21,7 @@ public class DbFunction {
         Statement statement;
         ResultSet result = null;
         try {
-            String query = String.format("SELECT * FROM person WHERE name = '%s' AND password = '%s'", user, password);
+            String query = String.format("SELECT * FROM person WHERE name = '%s' AND password = '%s' AND role = 'director'", user, password);
             statement = connection.createStatement();
             result = statement.executeQuery(query);
             while (result.next()) {

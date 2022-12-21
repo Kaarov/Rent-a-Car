@@ -37,7 +37,7 @@ public class Director {
         }
     }
 
-//    // Действия директора
+//     Действия директора
     public static void directorActions() {
         Scanner sc = new Scanner(System.in);
 
